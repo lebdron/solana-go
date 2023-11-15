@@ -165,6 +165,12 @@ func (c *Client) handleMessage(message []byte) {
 	// when receiving message with id. the result will be a subscription number.
 	// that number will be associated to all future message destine to this request
 
+	if traceEnabled {
+		zlog.Debug("received new message",
+			zap.ByteString("message", message),
+		)
+	}
+
 	requestID, ok := getUint64WithOk(message, "id")
 	if ok {
 		subID, _ := getUint64WithOk(message, "result")
